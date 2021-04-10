@@ -7,7 +7,7 @@ app, api = server.app, server.api
 products_db =   [ 
                     { 
                         "Products" :[
-                            {"id":1, "name": "Blusa", "price": 50.00 }
+                            {"id":1, "name": "Blusa", "price": 50.00, "stock": 50 }
                         ]   
                     }
                 ]
