@@ -9,8 +9,8 @@ COPY ./requirements.txt /etc
 RUN pip install -r /etc/requirements.txt
 
 ENV FLASK_ENV="development"
+ENV FLASK_APP="app.py"
+
 EXPOSE 8080
 
-ENV NAME api_app
-
-CMD ["python", "app.py"]
+CMD ["flask", "run", "--host", "0.0.0.0", "--port", "8080"]
