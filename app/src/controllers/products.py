@@ -15,8 +15,6 @@ products_db =   [
 @api.route('/products')
 class Products(Resource):
 
-
-        
     def get(self,):
         return products_db
     
@@ -25,7 +23,7 @@ class Products(Resource):
             response = api.payload
             if Products.product_validate(self, response['id']):
                 products_db[0]['Products'].append(response)
-                return {"product": response['id'], "message": "Sucesso", "code": "200"}, 200
+                return {"id": response['id'], "message": "Sucesso", "code": "200"}, 200
             return abort(500)
         except:
             return abort(500, message='Solicitação inválida, verifique o payload enviado')

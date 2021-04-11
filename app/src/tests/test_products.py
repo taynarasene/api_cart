@@ -1,6 +1,8 @@
 import requests
 import routes
 import json
+from random import randrange
+
 
 
 class TestProducts:
@@ -14,7 +16,7 @@ class TestProducts:
         assert type(response) == type([])
     
     def test_create_product(self):
-        payload = {'id':'500', 'name':'Teste', 'price': 50.00, 'stock': 50 }
+        payload = {'id': randrange(0, 1000, 2), 'name':'Teste', 'price': 50.00, 'stock': 50 }
         headers = {'content-type': 'application/json'}
         response = requests.post(routes.PRODUCTS, data=json.dumps(payload), headers=headers)
         assert response.status_code == 200
