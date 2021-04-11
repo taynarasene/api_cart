@@ -1,7 +1,9 @@
 from src.server.instance import server
 
-from src.controllers.hello import *
+app, api = server.app, server.api
+
 from src.controllers.products import products
+from src.controllers.cupons import cupons
 
 
 server.run()
