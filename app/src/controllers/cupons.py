@@ -24,20 +24,22 @@ class Cupons():
 
     @app.route('/cupons', methods=['POST'])
     def create_cupom():
-        cupom = Cupom(
-            request.json['tag'],
-            request.json['discount'],
-            request.json['type']
-        )
+        try:
+            cupom = Cupom(
+                request.json['tag'],
+                request.json['discount'],
+                request.json['type']
+            )
 
-        if not Cupons.has_tag(cupom.tag):
-            db.session.add(cupom)
-            db.session.commit()
-            result = cupom_schema.dump(cupom)
-            return jsonify(result)
-        else:
-            return jsonify({'code': 400, 'message': f"Cupom {cupom.tag} já Existe"}), 400
-    
+            if not Cupons.has_tag(cupom.tag):
+                db.session.add(cupom)
+                db.session.commit()
+                result = cupom_schema.dump(cupom)
+                return jsonify(result)
+            else:
+                return jsonify({'code': 400, 'message': f"Cupom {cupom.tag} já Existe"}), 400
+        except:
+            return jsonify({'code': 400, 'message': 'Verifique os dados enviados'}), 400
     
     @app.route('/cupons/<int:id>', methods=['PUT'])
     def update_cupom(id):
