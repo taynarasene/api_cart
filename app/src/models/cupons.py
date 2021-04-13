@@ -10,11 +10,10 @@ class Cupom(db.Model):
     discount = db.Column(db.Float, unique=False, nullable=False)
     type = db.Column(db.Integer, unique=False, nullable=False)
     
-    def __init__(self, tag, discount, type, enabled_products):
+    def __init__(self, tag, discount, type):
         self.tag = tag
         self.discount = discount
         self.type = type
-        self.enabled_products = enabled_products
 
 class ProductSchema(ma.Schema):
     class Meta:
