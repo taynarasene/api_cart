@@ -1,5 +1,7 @@
-flask
-flask-restplus
-Werkzeug==0.16.0
+flask==1.0.2
+flask-sqlalchemy==2.3.0
+SQLAlchemy<1.4
 requests
 pytest
+flask_marshmallow
+marshmallow-sqlalchemy
