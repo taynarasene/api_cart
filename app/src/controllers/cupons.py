@@ -21,7 +21,7 @@ class Cupons():
             return jsonify({'Cupom': result })
         else:
             return jsonify({'code': 404, 'message': f"Cupom id {id} não encontrado"}), 404
-            
+
     @app.route('/cupons', methods=['POST'])
     def create_cupom():
         cupom = Cupom(
@@ -56,6 +56,15 @@ class Cupons():
         db.session.commit()
         result = cupom_schema.dump(cupom)
         return jsonify(result)
+    
+    @app.route('/cupons/<int:id>', methods=['DELETE'])
+    def delete_cupom(id):
+        cupom = Cupom.query.get(id)
+        if cupom:
+            db.session.delete(cupom)
+            db.session.commit()
+            return jsonify({'id': id, 'message': 'deleted'}), 200
+        return jsonify({'code': 404, 'message': f"Cupom id {id} não encontrado"}), 404
 
     def has_tag(tag):
         has_cupom = Cupom.query.filter_by(tag = tag).first()

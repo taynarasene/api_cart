@@ -46,11 +46,23 @@ class TestCupom:
         headers = {'content-type': 'application/json'}
         response_create = requests.post(routes.CUPONS, data=json.dumps(payload), headers=headers)
         cupom_id = response_create.json()['id']
-        response = requests.get(f'{routes.CUPONS}/{cupom_id}', data=json.dumps(payload_new), headers=headers)
+        response = requests.get(f'{routes.CUPONS}/{cupom_id}')
         assert response.status_code == 200
     
-    def test_get_cupom_by_id_response_code_200(self):
+    def test_get_cupom_by_id_response_code_400(self):
         response = requests.get(f'{routes.CUPONS}/0')
+        assert response.status_code == 404
+    
+    def test_delete_cupom_by_id_response_code_200(self):
+        payload = {'tag': f'Teste GET {randint(1, 100)}', 'discount': 5, 'type': '%' }
+        headers = {'content-type': 'application/json'}
+        response_create = requests.post(routes.CUPONS, data=json.dumps(payload), headers=headers)
+        cupom_id = response_create.json()['id']
+        response = requests.delete(f'{routes.CUPONS}/{cupom_id}')
+        assert response.status_code == 200
+    
+    def test_delete_cupom_by_id_response_code_400(self):
+        response = requests.delete(f'{routes.CUPONS}/0')
         assert response.status_code == 404
     
 
