@@ -1,39 +1,58 @@
-from flask import Flask
-from flask_restplus import Api, Resource, abort
+from flask import Flask, request
 from src.server.instance import server
+from src.models.products import Product, products_schema, product_schema
+from flask.json import jsonify
 
-app, api = server.app, server.api
+app, db = server.app, server.db
 
-products_db =   [ 
-                    { 
-                        "Products" :[
-                            {"id":1, "name": "Blusa", "price": 50.00, "stock": 50 }
-                        ]   
-                    }
-                ]
+class Products():
 
-@api.route('/products')
-class Products(Resource):
-
-    def get(self,):
-        return products_db
+    @app.route('/products')
+    def index():
+        products = Product.query.all()
+        result = products_schema.dump(products)
+        return jsonify({'Products': result })
     
-    def post(self,):
-        try:
-            response = api.payload
-            if Products.product_validate(self, response['id']):
-                products_db[0]['Products'].append(response)
-                return {"id": response['id'], "message": "Sucesso", "code": "200"}, 200
-            return abort(500)
-        except:
-            return abort(500, message='Solicitação inválida, verifique o payload enviado')
+    @app.route('/products/<int:id>', methods=['GET'])
+    def get_by_id(id):
+        product = Product.query.get_or_404(id)
+        result = product_schema.dump(product)
+        return jsonify({'Products': result })
+    
+    @app.route('/products', methods=['POST'])
+    def create():
+        product = Product(
+            request.json['name'],
+            request.json['price'],
+            request.json['stock']
+        )
+        db.session.add(product)
+        db.session.commit()
+        result = product_schema.dump(product)
+        return jsonify(result)
+    
+    @app.route('/products/<int:id>', methods=['PUT'])
+    def put(id):
+        product = Product.query.get_or_404(id)
 
-    def product_validate(self,product_id):
-        products = products_db[0]['Products']
-        for item in products:
-            if item['id'] == product_id :  
-                return False 
-        return True
+        if 'name' in request.json:
+            product.name = request.json['name']
+        if 'price' in request.json:
+            product.price = request.json['price']
+        if 'stock' in request.json:
+            product.stock = request.json['stock']
 
+        db.session.commit()
+        result = product_schema.dump(product)
+        return jsonify(result)
+
+    @app.route('/products/<int:id>', methods=['DELETE'])
+    def delete(id):
+        product = Product.query.get_or_404(id)
+        db.session.delete(product)
+        db.session.commit()
+        return jsonify({'id': id, 'message': 'deleted'}), 200
+
+        
 
 products = Products()
