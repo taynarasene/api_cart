@@ -17,7 +17,7 @@ class Cupom(db.Model):
 
 class ProductSchema(ma.Schema):
     class Meta:
-        fields = ("id", "tag", "discont", "type")
+        fields = ("id", "tag", "discount", "type")
         model = Cupom
 
 cupom_schema = ProductSchema()
