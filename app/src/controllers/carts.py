@@ -30,7 +30,7 @@ class Carts():
     
     @app.route('/cart/<string:session_id>')
     def list_cart_by_session(session_id):
-        # try:
+        try:
             obj = [{
                 "session_id": session_id,
                 "cupom_apply": Carts.get_cupom(session_id),
@@ -40,8 +40,8 @@ class Carts():
                 "products": json.loads(Carts.get_cart_product(session_id))
             }]
             return jsonify({'Carts': obj })
-        # except:
-        #     return jsonify({'code': 404, 'message': f'carrinho {session_id} não encontrado' }), 404
+        except:
+            return jsonify({'code': 404, 'message': f'carrinho {session_id} não encontrado' }), 404
 
     @app.route('/cart/<string:session_id>', methods=['POST'])
     def created_cart(session_id):
