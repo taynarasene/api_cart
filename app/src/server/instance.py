@@ -7,8 +7,9 @@ class Server():
     def __init__(self,):
         self.app = Flask(__name__)
         self.app.debug = True
-        self.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///test.db'
+        self.app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///api.db'
         self.app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+        self.app.config['JSON_SORT_KEYS'] = False
 
         self.db = SQLAlchemy(self.app)
         self.ma = Marshmallow(self.app)
