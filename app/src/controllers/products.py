@@ -7,6 +7,7 @@ app, db = server.app, server.db
 
 class Products():
 
+
     @app.route('/products')
     def index():
         products = Product.query.all()
@@ -15,13 +16,15 @@ class Products():
     
     @app.route('/products/<int:id>', methods=['GET'])
     def get_by_id(id):
-        product = Product.query.get(id)
-        if product:
-            result = product_schema.dump(product)
-            return jsonify({'Products': result })
-        return jsonify({'code': 404, 'message': f"Produto id {id} não encontrado"}), 404
+        try:
+            product = Product.query.get(id)
+            if product:
+                result = product_schema.dump(product)
+                return jsonify({'Products': result })
+            return jsonify({'code': 404, 'message': f"Produto id {id} não encontrado"}), 404
+        except:
+            return jsonify({'code': 400, 'message': 'Verifique os dados enviados'}), 400    
 
-    
     @app.route('/products', methods=['POST'])
     def create():
         try:
