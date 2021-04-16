@@ -8,8 +8,8 @@ Documentação das APIs:
 ### Detalhes do Projeto
 
 - Linguagem Utilizada: Python
-- Frameword: Flask
-- Dependencias: Docker, docker-compose
+- Framework: Flask
+- Dependências: Docker, docker-compose
 
 ### Como executar o projeto
 
@@ -17,4 +17,4 @@ Documentação das APIs:
 docker-compose build
 docker-compose up -d
 ```
-Após rodar,acesse https://localhost/<Endpoint>
+Após rodar,acesse https://localhost/##Endpoint##
