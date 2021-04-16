@@ -64,8 +64,6 @@ class Carts():
                 )
             
             if product and product.stock >= request.json['quantity']:
-                cart = Cart.query.filter_by(session_id = session_id, product_id = request.json['product_id']).first()
-
                 product.stock = product.stock - request.json['quantity']
                 db.session.add(cart)
                 db.session.add(product)
