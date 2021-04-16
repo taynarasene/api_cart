@@ -17,4 +17,4 @@ Documentação das APIs:
 docker-compose build
 docker-compose up -d
 ```
-Após rodar,acesse https://localhost/##Endpoint##
+Após rodar,acesse https://localhost/#endpoint#
