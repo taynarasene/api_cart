@@ -43,22 +43,25 @@ class Cupons():
     
     @app.route('/cupons/<int:id>', methods=['PUT'])
     def update_cupom(id):
-        cupom = Cupom.query.get_or_404(id)
+        try:
+            cupom = Cupom.query.get(id)
 
-        if 'tag' in request.json:
-             if not Cupons.has_tag(request.json['tag']):
-                cupom.tag = request.json['tag']
-             else:
-                 return jsonify({'code': 400, 'message': f"Cupom {request.json['tag']} já Existe"}), 400
-        if 'discount' in request.json:
-            cupom.discount = request.json['discount']
-        if 'type' in request.json:
-            cupom.type = request.json['type']
+            if 'tag' in request.json:
+                if not Cupons.has_tag(request.json['tag']):
+                    cupom.tag = request.json['tag']
+                else:
+                    return jsonify({'code': 400, 'message': f"Cupom {request.json['tag']} já Existe"}), 400
+            if 'discount' in request.json:
+                cupom.discount = request.json['discount']
+            if 'type' in request.json:
+                cupom.type = request.json['type']
 
-        db.session.commit()
-        result = cupom_schema.dump(cupom)
-        return jsonify(result)
-    
+            db.session.commit()
+            result = cupom_schema.dump(cupom)
+            return jsonify(result)
+        except:
+                return jsonify({'code': 400, 'message': 'Verifique os dados enviados'}), 400
+
     @app.route('/cupons/<int:id>', methods=['DELETE'])
     def delete_cupom(id):
         cupom = Cupom.query.get(id)
